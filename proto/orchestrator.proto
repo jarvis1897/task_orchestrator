@@ -48,10 +48,23 @@ message TaskResult {
     bool acknowledged = 1;
 }
 
+// Task submission
+message SubmitTaskRequest {
+    string command = 1;
+    repeated string args = 2;
+}
+
+message SubmitTaskResponse {
+    bool success = 1;
+    string message = 2;
+    string task_id = 3;
+}
+
 // Service
 service Orchestrator {
     rpc Register(RegisterRequest) returns (RegisterResponse);
     rpc Heartbeat(HeartbeatRequest) returns (HeartbeatResponse);
     rpc PollTask(PollRequest)     returns (TaskResponse);
     rpc ReportResult(TaskResult)      returns (ReportResponse);
+    rpc SubmitTask(SubmitTaskRequest) returns (SubmitTaskResponse);
 }

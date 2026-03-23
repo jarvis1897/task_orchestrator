@@ -449,6 +449,119 @@ func (x *ReportResponse) GetAcknowledged() bool {
 	return false
 }
 
+// Task submission
+type SubmitTaskRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Command       string                 `protobuf:"bytes,1,opt,name=command,proto3" json:"command,omitempty"`
+	Args          []string               `protobuf:"bytes,2,rep,name=args,proto3" json:"args,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SubmitTaskRequest) Reset() {
+	*x = SubmitTaskRequest{}
+	mi := &file_orchestrator_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SubmitTaskRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SubmitTaskRequest) ProtoMessage() {}
+
+func (x *SubmitTaskRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_orchestrator_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SubmitTaskRequest.ProtoReflect.Descriptor instead.
+func (*SubmitTaskRequest) Descriptor() ([]byte, []int) {
+	return file_orchestrator_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *SubmitTaskRequest) GetCommand() string {
+	if x != nil {
+		return x.Command
+	}
+	return ""
+}
+
+func (x *SubmitTaskRequest) GetArgs() []string {
+	if x != nil {
+		return x.Args
+	}
+	return nil
+}
+
+type SubmitTaskResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	TaskId        string                 `protobuf:"bytes,3,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SubmitTaskResponse) Reset() {
+	*x = SubmitTaskResponse{}
+	mi := &file_orchestrator_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SubmitTaskResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SubmitTaskResponse) ProtoMessage() {}
+
+func (x *SubmitTaskResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_orchestrator_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SubmitTaskResponse.ProtoReflect.Descriptor instead.
+func (*SubmitTaskResponse) Descriptor() ([]byte, []int) {
+	return file_orchestrator_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *SubmitTaskResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *SubmitTaskResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *SubmitTaskResponse) GetTaskId() string {
+	if x != nil {
+		return x.TaskId
+	}
+	return ""
+}
+
 var File_orchestrator_proto protoreflect.FileDescriptor
 
 const file_orchestrator_proto_rawDesc = "" +
@@ -479,12 +592,21 @@ const file_orchestrator_proto_rawDesc = "" +
 	"\x06output\x18\x04 \x01(\tR\x06output\x12\x14\n" +
 	"\x05error\x18\x05 \x01(\tR\x05error\"4\n" +
 	"\x0eReportResponse\x12\"\n" +
-	"\facknowledged\x18\x01 \x01(\bR\facknowledged2\xb2\x02\n" +
+	"\facknowledged\x18\x01 \x01(\bR\facknowledged\"A\n" +
+	"\x11SubmitTaskRequest\x12\x18\n" +
+	"\acommand\x18\x01 \x01(\tR\acommand\x12\x12\n" +
+	"\x04args\x18\x02 \x03(\tR\x04args\"a\n" +
+	"\x12SubmitTaskResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x12\x17\n" +
+	"\atask_id\x18\x03 \x01(\tR\x06taskId2\x83\x03\n" +
 	"\fOrchestrator\x12I\n" +
 	"\bRegister\x12\x1d.orchestrator.RegisterRequest\x1a\x1e.orchestrator.RegisterResponse\x12L\n" +
 	"\tHeartbeat\x12\x1e.orchestrator.HeartbeatRequest\x1a\x1f.orchestrator.HeartbeatResponse\x12A\n" +
 	"\bPollTask\x12\x19.orchestrator.PollRequest\x1a\x1a.orchestrator.TaskResponse\x12F\n" +
-	"\fReportResult\x12\x18.orchestrator.TaskResult\x1a\x1c.orchestrator.ReportResponseB3Z1github.com/jarvis1897/task_orchestrator/gen/protob\x06proto3"
+	"\fReportResult\x12\x18.orchestrator.TaskResult\x1a\x1c.orchestrator.ReportResponse\x12O\n" +
+	"\n" +
+	"SubmitTask\x12\x1f.orchestrator.SubmitTaskRequest\x1a .orchestrator.SubmitTaskResponseB3Z1github.com/jarvis1897/task_orchestrator/gen/protob\x06proto3"
 
 var (
 	file_orchestrator_proto_rawDescOnce sync.Once
@@ -498,28 +620,32 @@ func file_orchestrator_proto_rawDescGZIP() []byte {
 	return file_orchestrator_proto_rawDescData
 }
 
-var file_orchestrator_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_orchestrator_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_orchestrator_proto_goTypes = []any{
-	(*RegisterRequest)(nil),   // 0: orchestrator.RegisterRequest
-	(*RegisterResponse)(nil),  // 1: orchestrator.RegisterResponse
-	(*HeartbeatRequest)(nil),  // 2: orchestrator.HeartbeatRequest
-	(*HeartbeatResponse)(nil), // 3: orchestrator.HeartbeatResponse
-	(*PollRequest)(nil),       // 4: orchestrator.PollRequest
-	(*TaskResponse)(nil),      // 5: orchestrator.TaskResponse
-	(*TaskResult)(nil),        // 6: orchestrator.TaskResult
-	(*ReportResponse)(nil),    // 7: orchestrator.ReportResponse
+	(*RegisterRequest)(nil),    // 0: orchestrator.RegisterRequest
+	(*RegisterResponse)(nil),   // 1: orchestrator.RegisterResponse
+	(*HeartbeatRequest)(nil),   // 2: orchestrator.HeartbeatRequest
+	(*HeartbeatResponse)(nil),  // 3: orchestrator.HeartbeatResponse
+	(*PollRequest)(nil),        // 4: orchestrator.PollRequest
+	(*TaskResponse)(nil),       // 5: orchestrator.TaskResponse
+	(*TaskResult)(nil),         // 6: orchestrator.TaskResult
+	(*ReportResponse)(nil),     // 7: orchestrator.ReportResponse
+	(*SubmitTaskRequest)(nil),  // 8: orchestrator.SubmitTaskRequest
+	(*SubmitTaskResponse)(nil), // 9: orchestrator.SubmitTaskResponse
 }
 var file_orchestrator_proto_depIdxs = []int32{
 	0, // 0: orchestrator.Orchestrator.Register:input_type -> orchestrator.RegisterRequest
 	2, // 1: orchestrator.Orchestrator.Heartbeat:input_type -> orchestrator.HeartbeatRequest
 	4, // 2: orchestrator.Orchestrator.PollTask:input_type -> orchestrator.PollRequest
 	6, // 3: orchestrator.Orchestrator.ReportResult:input_type -> orchestrator.TaskResult
-	1, // 4: orchestrator.Orchestrator.Register:output_type -> orchestrator.RegisterResponse
-	3, // 5: orchestrator.Orchestrator.Heartbeat:output_type -> orchestrator.HeartbeatResponse
-	5, // 6: orchestrator.Orchestrator.PollTask:output_type -> orchestrator.TaskResponse
-	7, // 7: orchestrator.Orchestrator.ReportResult:output_type -> orchestrator.ReportResponse
-	4, // [4:8] is the sub-list for method output_type
-	0, // [0:4] is the sub-list for method input_type
+	8, // 4: orchestrator.Orchestrator.SubmitTask:input_type -> orchestrator.SubmitTaskRequest
+	1, // 5: orchestrator.Orchestrator.Register:output_type -> orchestrator.RegisterResponse
+	3, // 6: orchestrator.Orchestrator.Heartbeat:output_type -> orchestrator.HeartbeatResponse
+	5, // 7: orchestrator.Orchestrator.PollTask:output_type -> orchestrator.TaskResponse
+	7, // 8: orchestrator.Orchestrator.ReportResult:output_type -> orchestrator.ReportResponse
+	9, // 9: orchestrator.Orchestrator.SubmitTask:output_type -> orchestrator.SubmitTaskResponse
+	5, // [5:10] is the sub-list for method output_type
+	0, // [0:5] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -536,7 +662,7 @@ func file_orchestrator_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_orchestrator_proto_rawDesc), len(file_orchestrator_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   8,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

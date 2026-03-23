@@ -23,6 +23,7 @@ const (
 	Orchestrator_Heartbeat_FullMethodName    = "/orchestrator.Orchestrator/Heartbeat"
 	Orchestrator_PollTask_FullMethodName     = "/orchestrator.Orchestrator/PollTask"
 	Orchestrator_ReportResult_FullMethodName = "/orchestrator.Orchestrator/ReportResult"
+	Orchestrator_SubmitTask_FullMethodName   = "/orchestrator.Orchestrator/SubmitTask"
 )
 
 // OrchestratorClient is the client API for Orchestrator service.
@@ -35,6 +36,7 @@ type OrchestratorClient interface {
 	Heartbeat(ctx context.Context, in *HeartbeatRequest, opts ...grpc.CallOption) (*HeartbeatResponse, error)
 	PollTask(ctx context.Context, in *PollRequest, opts ...grpc.CallOption) (*TaskResponse, error)
 	ReportResult(ctx context.Context, in *TaskResult, opts ...grpc.CallOption) (*ReportResponse, error)
+	SubmitTask(ctx context.Context, in *SubmitTaskRequest, opts ...grpc.CallOption) (*SubmitTaskResponse, error)
 }
 
 type orchestratorClient struct {
@@ -85,6 +87,16 @@ func (c *orchestratorClient) ReportResult(ctx context.Context, in *TaskResult, o
 	return out, nil
 }
 
+func (c *orchestratorClient) SubmitTask(ctx context.Context, in *SubmitTaskRequest, opts ...grpc.CallOption) (*SubmitTaskResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SubmitTaskResponse)
+	err := c.cc.Invoke(ctx, Orchestrator_SubmitTask_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrchestratorServer is the server API for Orchestrator service.
 // All implementations must embed UnimplementedOrchestratorServer
 // for forward compatibility.
@@ -95,6 +107,7 @@ type OrchestratorServer interface {
 	Heartbeat(context.Context, *HeartbeatRequest) (*HeartbeatResponse, error)
 	PollTask(context.Context, *PollRequest) (*TaskResponse, error)
 	ReportResult(context.Context, *TaskResult) (*ReportResponse, error)
+	SubmitTask(context.Context, *SubmitTaskRequest) (*SubmitTaskResponse, error)
 	mustEmbedUnimplementedOrchestratorServer()
 }
 
@@ -116,6 +129,9 @@ func (UnimplementedOrchestratorServer) PollTask(context.Context, *PollRequest) (
 }
 func (UnimplementedOrchestratorServer) ReportResult(context.Context, *TaskResult) (*ReportResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ReportResult not implemented")
+}
+func (UnimplementedOrchestratorServer) SubmitTask(context.Context, *SubmitTaskRequest) (*SubmitTaskResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method SubmitTask not implemented")
 }
 func (UnimplementedOrchestratorServer) mustEmbedUnimplementedOrchestratorServer() {}
 func (UnimplementedOrchestratorServer) testEmbeddedByValue()                      {}
@@ -210,6 +226,24 @@ func _Orchestrator_ReportResult_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Orchestrator_SubmitTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SubmitTaskRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrchestratorServer).SubmitTask(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Orchestrator_SubmitTask_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrchestratorServer).SubmitTask(ctx, req.(*SubmitTaskRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Orchestrator_ServiceDesc is the grpc.ServiceDesc for Orchestrator service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -232,6 +266,10 @@ var Orchestrator_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ReportResult",
 			Handler:    _Orchestrator_ReportResult_Handler,
+		},
+		{
+			MethodName: "SubmitTask",
+			Handler:    _Orchestrator_SubmitTask_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
