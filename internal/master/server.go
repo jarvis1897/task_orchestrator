@@ -5,10 +5,11 @@ import (
 	"log"
 	"net"
 	"time"
-	
-	"google.golang.org/grpc"
+
+	"github.com/google/uuid"
 	pb "github.com/jarvis1897/task_orchestrator/gen/proto"
 	"github.com/jarvis1897/task_orchestrator/internal/common"
+	"google.golang.org/grpc"
 )
 
 type MasterServer struct {
@@ -61,6 +62,21 @@ func (s *MasterServer) ReportResult(ctx context.Context, req *pb.TaskResult) (*p
 	log.Printf("task result received: taskId=%s success=%v output=%s error=%s", req.TaskId, req.Success, req.Output, req.Error)
 	return &pb.ReportResponse{
 		Acknowledged: true,
+	}, nil
+}
+
+func (s *MasterServer) SubmitTask(ctx context.Context, req *pb.SubmitTaskRequest) (*pb.SubmitTaskResponse, error) {
+	task := &common.Task{
+		ID: uuid.NewString(),
+		Command: req.Command,
+		Args: req.Args,
+		Status: "pending",
+	}
+	s.scheduler.AddTask(task)
+	return  &pb.SubmitTaskResponse{
+		Success: true,
+		Message: "task submitted successfully",
+		TaskId: task.ID,
 	}, nil
 }
 
