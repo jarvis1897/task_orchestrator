@@ -8,7 +8,7 @@ import (
 	pb "github.com/jarvis1897/task_orchestrator/gen/proto"
 )
 
-func SendHeartBeat(ctx context.Context, nodeId string, client pb.OrchestratorClient, interval int) {
+func SendHeartbeat(ctx context.Context, nodeId string, client pb.OrchestratorClient, interval int) {
 	ticker := time.NewTicker(time.Duration(interval))
 	defer ticker.Stop()
 	for {
