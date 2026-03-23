@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package orchestrator;
+
+option go_package = "github.com/jarvis1897/task_orchestrator/gen/proto";
+
+// Node registration request
+message RegisterRequest {
+    string node_id = 1;
+    string address = 2;
+}
+
+message RegisterResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+// Heartbeat
+message HeartbeatRequest {
+    string node_id = 1;
+}
+
+message HeartbeatResponse {
+    bool alive = 1; // Master ACK
+}
+
+// Task polling
+message PollRequest {
+    string node_id = 1;
+}
+
+message TaskResponse {
+    bool has_task = 1;
+    string task_id = 2;
+    string command = 3;
+    repeated string args = 4;
+}
+
+// Result reporting
+message TaskResult {
+    string node_id = 1;
+    string task_id = 2;
+    bool success = 3;
+    string output = 4; // stdout
+    string error = 5; // stderr
+}
+ message ReportResponse {
+    bool acknowledged = 1;
+}
+
+// Service
+service Orchestrator {
+    rpc Register(RegisterRequest) returns (RegisterResponse);
+    rpc Heartbeat(HeartbeatRequest) returns (HeartbeatResponse);
+    rpc PollTask(PollRequest)     returns (TaskResponse);
+    rpc ReportResult(TaskResult)      returns (ReportResponse);
+}
